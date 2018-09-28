@@ -1,0 +1,82 @@
+.flex {
+  display: flex;
+  flex: 1;
+}
+
+.row {
+  flex-direction: row;
+}
+
+.column {
+  flex-direction: column;
+}
+
+#index-main {
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    text-align: center;
+}
+
+#form {
+    border: 1px solid #AAA;
+    width: 500px;
+    border-radius: 20px;
+    text-align: center;
+    margin: 30px auto;
+    font-size: 13pt;
+}
+
+#logo-title {
+    margin-top: 5px;
+}
+
+#sel-type {
+    width: 220px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#sel-name {
+    width: 220px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    /*margin-top: 20px;*/
+}
+
+.custom-select {
+    background: #FFF url('../../assets/images/down-arrow.png') no-repeat right;
+    text-indent: 5px;
+    padding: 0px 0px 0px 5px;
+    text-overflow: '';
+    height: 39px;
+    line-height:35px;
+}
+
+#load-procedure {
+    margin-bottom: 20px;
+    font-size: 13pt;
+    margin-right: 10px;
+}
+
+#procedure-name {
+    width: 220px;
+    margin-top: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    font-size: 13pt;
+}
+
+#edit-procedure {
+    margin-bottom: 20px;
+    font-size: 13pt;
+}
+
+#title-text {
+    font-size: 11.5pt;
+    margin-top: 10px;
+}

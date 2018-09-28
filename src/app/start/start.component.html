@@ -1,0 +1,29 @@
+<div id="index-main">	
+  <div id="logo">
+      <img src="../../assets/images/logo.jpg" width="120px">
+      <h2 id="logo-title">SMARTSurg</h2>
+  </div>
+  <div id="form">
+      <div id="title-text">Start using the interface by performing or editing a procedure</div>
+      <form id="form-procedure" #procedureForm="ngForm">
+          <select class="custom-select" id="sel-type" [(ngModel)]="procedure_request.type" #procedureType
+            autofocus required 
+            name="procedure-type"  pattern="^((?!none).)*$" (change)="onTypeSelect(procedureType.value)">
+              <option value="none" disabled>Select Procedure Type</option>
+              <option *ngFor="let type of types; let i=index" value={{type}}>{{type}}</option>
+          </select>
+          <select class="custom-select" id="sel-name" [(ngModel)]="procedure_request.procedure" #procedureProcedure
+            autofocus required 
+            name="procedure-procedure"  pattern="^((?!none).)*$" *ngIf="procedure_request.type!='none'">
+              <option value="none" disabled>Select Procedure</option>
+              <option *ngFor="let name of names; let i=index" value={{name}}>{{name}}</option>
+          </select>
+          <input name="procedure-newname" id="procedure-name" type="text" class="form-control" 
+                placeholder="New Procedure Name" autofocus
+                [(ngModel)]="procedure_request.name" #procedureName *ngIf="create==true">
+          <br>
+          <button type="submit" class="btn btn-primary" id="load-procedure" [disabled]="!procedureForm.form.valid" (click)="onCreate()">Create</button>
+          <button type="submit" class="btn btn-primary" id="edit-procedure" [disabled]="!procedureForm.form.valid" (click)="onEdit()">Edit</button>
+      </form>
+  </div>
+</div>
