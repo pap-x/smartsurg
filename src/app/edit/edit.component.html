@@ -23,7 +23,7 @@
     </div>
   </div>
   <div class="steps-bar">
-    <p class="steps-bar-title">{{procedure.phases[selected_phase].name | addspaces | uppercase}}</p>
+    <p class="steps-bar-title">{{procedure.phases[selected_phase].name | uppercase}}</p>
     <a [routerLink]="" *ngFor="let step of procedure.phases[selected_phase].steps; let i = index" [class.active]="selected_step === i" (click)="onSelectedStep(i)" class="step-button">
       <span *ngIf="editStep!=i+1">{{step.name | limitchar:38}}</span>
       <span *ngIf="editStep==i+1"><input name="step-name" id={{step.id}} type="text" class="name-edit-step form-control" value="{{step.name}}" autofocus></span>  
@@ -37,12 +37,12 @@
   </div>
 
   <div class="main-window" *ngIf="addMode=='no'&&editMode=='no'">
-    <h4>Step: {{procedure.phases[selected_phase].steps[selected_step].name | addspaces}}</h4>
+    <h4>Step: {{procedure.phases[selected_phase].steps[selected_step].name}}</h4>
     <div class="substep-box" *ngFor="let substep of procedure.phases[selected_phase].steps[selected_step].substeps; let i = index" [class.parallel]="isParallel(substep, i)">
       <div class="substep-div">
         <span class="delete-icon fas fa-trash-alt" (click)="onDelete('substep', substep.name, substep.id)"></span>
         <span class="edit-icon fas fa-edit" (click)="onEdit('substep', substep.name, i)"></span>
-        <p><b>Substep Name:</b> {{substep.name | addspaces}}</p>
+        <p><b>Substep:</b> {{substep.name}}</p>
         <p><b>Action:</b> {{substep.action | addspaces}}</p>
         <table *ngIf="substep.instruments[0]" class="table table-sm table-bordered instrument-table">
           <thead>
