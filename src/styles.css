@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
 body {
 	font-family: 'Lato', 'Sans Serif' !important;
 }
@@ -6,11 +8,12 @@ body {
 	display: flex;
 	flex: 1;
 }
-  
-.row {
+
+.frow {
 	flex-direction: row;
+	flex-wrap: wrap;
 }
-  
+
 .column {
 	flex-direction: column;
 }
@@ -26,4 +29,18 @@ body {
 .modal-backdrop.in {
     opacity: 0.5;
     /* opacity: $modal-backdrop-opacity; (SCSS) */
+}
+
+.step-bar > .mat-content {
+  justify-content: space-between;
+}
+
+.mat-expansion-panel-body {
+  display: flex;
+}
+
+#mainpage-btn {
+  position: absolute;
+  right: 10px;
+  top: 15px;
 }

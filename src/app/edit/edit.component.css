@@ -1,14 +1,15 @@
 .title-bar {
-    height: 80px;
-    margin-top: 10px;
-    margin-left: 20px;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 6px 0px rgba(138,138,138,0.8);
 }
 
 .main-window {
-    margin-left: 30px;
+    margin-left: 20px;
     border-left: 1px solid lightgrey;
-    padding-left: 40px;
-    padding-top: 5px;
+    padding-left: 20px;
 }
 
 .add-substep-window {
@@ -42,22 +43,34 @@
     padding-top: 5px;
     width: 500px;
 }
-
-.logo-div {
-    text-align: center;
+.title-logo {
+    float: left;
 }
 
 .title-text {
-    font-size: 13pt;
+    font-size: 16pt;
+    display: inline-block;
+    margin-top: 5px;
+    margin-left: 5px;
+    font-weight: bold;
 }
 
-.procedure-name-div {
-    height: 80px;
+.edit-title-text {
+    font-size: 16pt;
+    display: inline-block;
+    margin-top: 5px;
+    margin-left: 5px;
+    font-weight: bold;
+    width: 600px;
+    margin-bottom: 10px;
 }
 
-.procedure-name-div h2 {
-    margin-top: 20px;
+.procedure-name {
+    margin-top: 7px;
     margin-left: 50px;
+    font-size: 13.5pt;
+    color: #296b9b;
+    font-weight: bold;
 }
 
 .main {
@@ -65,111 +78,108 @@
 }
 
 .phases-bar {
-    width: 250px;
-    text-align: center;
+    width: 260px;
+    text-align: left;
+    margin-right: 5px;
 }
 
-.phases-bar a {
+.phase-button {
     background-color: #eee; /* Grey background color */
     color: black; /* Black text color */
     display: block; /* Make the links appear below each other */
-    padding: 12px; /* Add some padding */
+    padding: 12px 12px 12px 18px; /* Add some padding */
     text-decoration: none; /* Remove underline from links */
     position: relative;
-    border-right: 2px solid rgb(35, 119, 134);
+    margin-bottom: 0px;
     /*border-bottom: 1px solid rgb(35, 119, 134);*/
 }
 
-.phase-button:nth-child(2):before {
-    position: absolute; 
-    border: 1.5px solid rgb(35, 119, 134); 
-    width: 0; 
-    height: 18px; 
-    display: block; 
-    content: ''; 
-    left: 50%; 
-    z-index: 1; 
-    top: -18px; 
-    margin-left: -1px;
-}
-
-.step-button:nth-child(2):before {
-    position: absolute; 
-    border: 1.5px solid rgb(35, 119, 134); 
-    width: 0; 
-    height: 18px; 
-    display: block; 
-    content: ''; 
-    left: 50%; 
-    z-index: 1; 
-    top: -18px; 
-    margin-left: -1px;
-}
-
-.step-button:nth-child(2) {
-    border-top: 2px solid rgb(35, 119, 134);
-}
-
-.phase-button:nth-child(2) {
-    border-top: 2px solid hsl(189, 59%, 33%);
-}
-
-.phases-bar a:hover {
+.phase-button:hover {
     background-color: #ccc; /* Dark grey background on mouse-over */
+    cursor: pointer;
 }
 
-.phases-bar a.active {
-    background-color: rgb(41, 158, 179); /* Add a green color to the "active/current" link */
+.phase-button.active {
+    background-color: #3282bc; /* Add a green color to the "active/current" link */
     color: white !important;
 }
 
 .steps-bar {
-    width: 370px;
-    text-align: center;
+    width: 350px;
+    text-align: left;
 }
 
-.steps-bar a {
+.step-button {
     background-color: #eee; /* Grey background color */
     color: black; /* Black text color */
     display: block; /* Make the links appear below each other */
-    padding: 12px; /* Add some padding */
+    padding: 12px 12px 12px 18px;  /* Add some padding */
     text-decoration: none; /* Remove underline from links */
     position: relative;
+    margin-bottom: 0px;
     /*border-bottom: 1px solid rgb(35, 119, 134);*/
 }
 
-.steps-bar a:hover {
+.step-button:hover {
     background-color: #ccc; /* Dark grey background on mouse-over */
+    cursor: pointer;
 }
 
-.steps-bar a.active {
-    background-color: rgb(41, 158, 179); /* Add a green color to the "active/current" link */
+.step-button.active {
+    background-color: #3282bc; /* Add a green color to the "active/current" link */
     color: white;
 }
 
 .phases-bar-title {
     font-size: 13pt;
-    border-bottom: 2px solid rgb(35, 119, 134);
-    display: inline-block;
-    padding: 0px 5px 0px 5px;
-    color: rgb(41, 158, 179);
+    margin-bottom: 0px;
+    padding-bottom: 5px;
+    color: white;
+    background-color: #105b91;
+    padding: 12px;
 }
 
 .steps-bar-title {
     font-size: 13pt;
-    border-bottom: 2px solid rgb(35, 119, 134);
-    display: inline-block;
-    padding: 0px 5px 0px 5px;
-    color: rgb(41, 158, 179);
+    margin-bottom: 0px;
+    padding-bottom: 5px;
+    color: white;
+    background-color: #105b91;
+    padding: 12px;
+}
+
+.substeps-bar-title {
+    font-size: 13pt;
+    margin-bottom: 0px;
+    padding-bottom: 5px;
+    color: white;
+    background-color: #105b91;
+    padding: 12px;
+}
+
+.substep-bar-title {
+    font-size: 13pt;
+    margin-bottom: 0px;
+    padding-bottom: 5px;
+    color: white;
+    background-color: #3282bc;
+    padding: 12px;
 }
 
 .substep-box {
-    border-radius: 20px;
+    margin-top: 15px;
+    width: 700px;
+    /*min-height: 235px;*/
+    /*box-shadow: 0px 2px 3px 0px rgba(138,138,138,0.8);*/
+    border-radius: 0px 0px 5px 5px;
+}
+
+.substep-details {
+    border-right: 2px solid rgb(221, 221, 221);
+    border-left: 2px solid rgb(221, 221, 221);
+    border-bottom: 2px solid rgb(221, 221, 221);
     padding: 10px;
-    margin-bottom: 15px;
-    width: 775px;
-    min-height: 235px;
-    box-shadow: 4px 4px 14px 0px rgba(218,93,53);
+    border-radius: 0px 0px 5px 5px;
 }
 
 .phase-bar-icon {
@@ -178,11 +188,98 @@
 }
 
 .add-btn {
-    margin-bottom: 10px;
+    margin-top: 3px;
+}
+
+.rem-btn {
+    margin-left: 5px;
+    margin-top: 3px
+}
+
+.short-form-input {
+    float: left;
+    width: 280px;
+    margin-right: 15px;
 }
 
 .add-icon {
+    margin-top: 3px;
+    font-size: 15pt;
+    float: right;
+    color: #3b92cf;
+}
+
+.close-icon {
+    margin-top: 3px;
+    font-size: 15pt;
+    float: right;
+    color: #3b92cf;
+    margin-left: 10px;
+    border-left: 1px solid #3b92cf;
+    padding-left: 10px;
+}
+
+.expand-icon {
+    margin-top: 3px;
+    font-size: 15pt;
+    float: right;
+    color: #3b92cf;
+    margin-left: 5px;
+}
+
+.add-icon-btn {
+    margin-top: 2px;
+    font-size: 12pt;
+    float: left;
     margin-right: 5px;
+    color: white;
+}
+
+.close-icon:hover {
+    cursor: pointer;
+    color: lightgrey;
+}
+
+.expand-icon:hover {
+    cursor: pointer;
+    color: lightgrey;
+}
+
+.rem-icon-btn {
+    margin-top: 2px;
+    font-size: 12pt;
+    float: left;
+    margin-right: 5px;
+    color: white;
+}
+
+.add-icon:hover {
+    cursor: pointer;
+    color: lightgrey;
+}
+
+.action-sel {
+    margin-bottom: 0px !important;
+}
+
+.sel-action {
+    width: 230px;
+    display: inline;
+    float: left;
+}
+
+.action-div {
+    min-height: 50px;
+}
+
+.anatomy-bubble {
+    background-color: #3282bc;
+    border-radius: 15px;
+    padding: 2px 6px 4px 6px;
+    margin-right: 3px;
+    color: white;
+    display: inline-block;
+    margin-top: 1px;
 }
 
 .add-div {
@@ -192,39 +289,44 @@
 
 .substep-img {
     display: inline-block;
-    margin-top: 15px;
+    margin-top: 10px;
     vertical-align: top;
+    max-width: 280px;
+    /*max-height: 210px;*/
+    margin-bottom: 5px;
 }
 
 .substep-div {
     display: inline-block;
-    width: 420px;
-    margin-right: 30px;
+    width: 370px;
+    margin-right: 18px;
     border-right: 1px solid lightgrey;
     min-height: 230px;
     padding-right: 5px;
+    padding-top: 5px;
+    padding-left: 5px;
 }
 
 .edit-form-input {
     margin-bottom: 10px;
 }
 
-.add-btn-anatomy {
-    float: left;
-    margin-right: 10px;     
-    margin-bottom: 20px;
-}
-
 .inline-form-p {
-    display: inline-block;
-    font-size: 10.5pt;
-    margin-top: 5px;
-    color: grey;
+    display: block;
+    font-size: 12pt;
+    margin-top: 10px;
 }
 
-.title-text {
-    font-size: 13pt;
-    margin-bottom: 10px;
+.inline-form-p-desc {
+    display: inline-block;
+    font-size: 11pt;
+    margin-top: 8px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+}
+
+.instrument-table-name {
+    padding-top: 10px;
 }
 
 .save-btn {
@@ -232,45 +334,44 @@
 }
 
 .delete-icon {
-    float: right;
     font-size: 11pt;
-    margin-top: 4px;
+    margin-top: 2px;
     margin-left: 5px;
-    color: lightgrey;
+    color: white;
 }
 
 .delete2-icon {
     float: right;
     font-size: 11pt;
     margin-top: 4px;
-    margin-left: 5px;
+    margin-left: 8px;
     color: white;
 }
 
-.delete-icon:hover .delete-icon2:hover {
+.delete-icon:hover {
     cursor: pointer;
-    color: black;
+    color: lightgrey;
 }
 
 .delete2-icon:hover {
     cursor: pointer;
-    color: black;
+    color: lightgrey;
 }
 
 .edit-icon {
-    float: right;
     font-size: 11pt;
-    margin-top: 4px;
-    color: lightgrey;
+    margin-top: 2px;
+    margin-left: 15px;
+    color: white;
 }
 
 .edit-icon:hover {
     cursor: pointer;
-    color: black;
+    color: lightgrey;
 }
 
 .edit2-icon {
-    float: left;
+    float: right;
     font-size: 11pt;
     margin-top: 4px;
     color: white;
@@ -278,7 +379,7 @@
 
 .edit2-icon:hover {
     cursor: pointer;
-    color: black;
+    color: lightgrey;
 }
 
 .check-icon {
@@ -314,7 +415,7 @@ input[type="file"] {
 .custom-file-upload {
     border: 1px solid #ccc;
     display: block;
-    padding: 8px 12px;
+    padding: 5px 10px;
     cursor: pointer;
     background-color: #007bff;
     color: white;
@@ -331,14 +432,19 @@ input[type="file"] {
     color: grey;
     display: inline-block;
     font-size: 10.5pt;
-    margin-left: 15px;
-    margin-top: 12px;
+    margin-left: 5px;
+    margin-top: 8px;
+    margin-right: 10px;
 }
 
 .image-div {
     margin-bottom: 20px;
     display: inline-block;
-    width: 459px;
+    width: 470px;
+}
+
+.upload-btn {
+    margin-right: 5px;
 }
 
 .name-edit {
@@ -371,4 +477,38 @@ input[type="file"] {
 
 .parallel {
     position: relative;
+}
+
+.angle-icon {
+    float: right;
+    font-size: 17pt;
+    margin-top: 2px;
+    margin-left: 10px;
+}
+
+.angle-icon:hover {
+    cursor: pointer;
+    color: lightgrey;
+}
+
+.new-buttons {
+    margin-bottom: 15px;
+}
+
+.new-instr {
+    margin-left: 15px;
+}
+
+.loading-div {
+  text-align: center;
+  width: 100%;
+}
+
+.loading-div p {
+  font-size: 20pt;
+  margin-top: 10px;
+}
+
+.small-loading {
+  margin-left: 5px;
 }

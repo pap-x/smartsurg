@@ -4,12 +4,14 @@ import { CommonModule } from '@angular/common';
 import { StartComponent } from './start/start.component';
 import { EditComponent } from './edit/edit.component';
 import { VerifyComponent } from './verify/verify.component';
+import { ReviewComponent } from './review/review.component';
 
 const routes: Routes = [
   { path: 'start', component: StartComponent },
   { path: 'edit', component: EditComponent },
   { path: 'verify', component: VerifyComponent },
-  { path: '', component: StartComponent}
+  { path: '', component: StartComponent},
+  { path: 'review', component: ReviewComponent },
   //{ path: '', redirectTo: '/login', pathMatch: 'full'}
 ];
 

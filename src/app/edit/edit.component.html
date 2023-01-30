@@ -1,76 +1,86 @@
-<div class="flex row title-bar">
-  <div class="logo-div">
-    <img src="../../assets/images/logo.jpg" height="60px" width="60px">
-    <p class="title-text">SMARTSurg</p>
-  </div>
-  <div class="procedure-name-div">
-    <h2>{{procedure.name}} | {{procedure.type}}</h2>
-  </div>  
-</div>
-<hr>
-<div class="flex row main">
-  <div class="phases-bar">
-    <p class="phases-bar-title">{{procedure.name}} PHASES</p>
-    <a [routerLink]="" *ngFor="let phase of procedure.phases; let i = index" [class.active]="selected_phase === i" (click)="onSelectedPhase(i)" class="phase-button">
-      <span *ngIf="selected_phase != i || editPhase!=i+1">{{phase.name | limitchar:22}}</span>
-      <span *ngIf="selected_phase === i&&editPhase==i+1"><input name="phase-name" id={{phase.id}} type="text" class="name-edit form-control" value="{{phase.name}}" autofocus></span>  
-      <span *ngIf="selected_phase === i&&editPhase==i+1" class="check-icon fas fa-check" (click)="onSaveNamePhase(phase.id)"></span> 
-      <span *ngIf="selected_phase === i&&editPhase!=i+1" class="delete2-icon fas fa-trash-alt" (click)="onDelete('phase', phase.name, phase.id)"></span>
-      <span *ngIf="selected_phase === i&&editPhase!=i+1" class="edit2-icon fas fa-edit" (click)="editPhase=i+1"></span>
-    </a>
-    <div class="add-div">
-      <button class="add-btn btn btn-primary" (click)="onAdd('phase')"><span class="add-icon fas fa-plus"></span>Add Phase</button>
+<div class="flex frow title-bar">
+  <a [routerLink]="['/start']">
+    <div class="logo-div">
+      <img src="./assets/images/logo.jpg" height="45px" width="45px" class="title-logo">
+      <p class="title-text"><span style="color:#3282bc;">SMART</span><span style="color:#19af74;">Surg</span></p>
     </div>
+  </a>
+  <div class="procedure-name-div" *ngIf="!loading">
+    <p class="procedure-name">{{procedure.name}} | {{procedure.type}}</p>
+  </div>
+  <button mat-raised-button color="primary" routerLink="/start" id="mainpage-btn">Main Menu</button>
+</div>
+<div class="loading-div" *ngIf="loading">
+  <i class="fas fa-spinner fa-pulse fa-7x"></i>
+  <p><b>Loading...</b></p>
+</div>
+<div class="flex frow main" *ngIf="!loading">
+  <div class="phases-bar">
+    <p class="phases-bar-title">{{procedure.name | limitchar:13}} | PHASES<span class="add-icon fas fa-plus-circle" (click)="onAdd('phase')" ngbTooltip="Add Phase"></span></p>
+    <p *ngFor="let phase of procedure.phases; let i = index" [class.active]="selected_phase === i" (click)="onSelectedPhase(i)" class="phase-button">
+      <span *ngIf="selected_phase != i || editPhase!=i+1">{{alphabet[i]}}. {{phase.name | limitchar:21}}</span>
+      <span *ngIf="selected_phase === i&&editPhase==i+1"><input name="phase-name" id={{phase.id}} type="text" class="name-edit form-control" value="{{phase.name}}" autofocus></span>
+      <span *ngIf="selected_phase === i&&editPhase==i+1" class="check-icon fas fa-check" (click)="onSaveNamePhase(phase.id)" ngbTooltip="Save Name" container="body"></span>
+      <span *ngIf="selected_phase === i&&editPhase!=i+1" class="delete2-icon fas fa-trash-alt" (click)="onDelete('phase', phase.name, phase.id)" ngbTooltip="Delete Phase" container="body"></span>
+      <span *ngIf="selected_phase === i&&editPhase!=i+1" class="edit2-icon fas fa-edit" (click)="editPhase=i+1" ngbTooltip="Edit Name" container="body"></span>
+    </p>
   </div>
   <div class="steps-bar">
-    <p class="steps-bar-title">{{procedure.phases[selected_phase].name | uppercase}}</p>
-    <a [routerLink]="" *ngFor="let step of procedure.phases[selected_phase].steps; let i = index" [class.active]="selected_step === i" (click)="onSelectedStep(i)" class="step-button">
-      <span *ngIf="editStep!=i+1">{{step.name | limitchar:38}}</span>
-      <span *ngIf="editStep==i+1"><input name="step-name" id={{step.id}} type="text" class="name-edit-step form-control" value="{{step.name}}" autofocus></span>  
-      <span *ngIf="editStep==i+1" class="check-icon fas fa-check" (click)="onSaveNameStep(step.id)"></span> 
-      <span *ngIf="selected_step === i&&editStep!=i+1" class="delete2-icon fas fa-trash-alt" (click)="onDelete('step', step.name, step.id)"></span>
-      <span *ngIf="selected_step === i&&editStep!=i+1" class="edit2-icon fas fa-edit" (click)="editStep=i+1"></span>
-    </a>
-    <div class="add-div">
-      <button class="add-btn btn btn-primary" (click)="onAdd('step')"><span class="add-icon fas fa-plus"></span>Add Step</button>
-    </div>
+    <p class="steps-bar-title">{{procedure.phases[selected_phase].name | uppercase | limitchar:21}} | STEPS<span class="add-icon fas fa-plus-circle" (click)="onAdd('step')" ngbTooltip="Add Step"></span></p>
+    <p *ngFor="let step of procedure.phases[selected_phase].steps; let i = index" [class.active]="selected_step === i" (click)="onSelectedStep(i)" class="step-button">
+      <span *ngIf="editStep!=i+1">{{i+1}}. {{step.name | limitchar:32}}</span>
+      <span *ngIf="editStep==i+1"><input name="step-name" id={{step.id}} type="text" class="name-edit-step form-control" value="{{step.name}}" autofocus></span>
+      <span *ngIf="editStep==i+1" class="check-icon fas fa-check" (click)="onSaveNameStep(step.id)" ngbTooltip="Save Name" container="body"></span>
+      <span *ngIf="selected_step === i&&editStep!=i+1" class="delete2-icon fas fa-trash-alt" (click)="onDelete('step', step.name, step.id)" ngbTooltip="Delete Step" container="body"></span>
+      <span *ngIf="selected_step === i&&editStep!=i+1" class="edit2-icon fas fa-edit" (click)="editStep=i+1" ngbTooltip="Edit Name" container="body"></span>
+    </p>
   </div>
 
   <div class="main-window" *ngIf="addMode=='no'&&editMode=='no'">
-    <h4>Step: {{procedure.phases[selected_phase].steps[selected_step].name}}</h4>
-    <div class="substep-box" *ngFor="let substep of procedure.phases[selected_phase].steps[selected_step].substeps; let i = index" [class.parallel]="isParallel(substep, i)">
-      <div class="substep-div">
-        <span class="delete-icon fas fa-trash-alt" (click)="onDelete('substep', substep.name, substep.id)"></span>
-        <span class="edit-icon fas fa-edit" (click)="onEdit('substep', substep.name, i)"></span>
-        <p><b>Substep:</b> {{substep.name}}</p>
-        <p><b>Action:</b> {{substep.action | addspaces}}</p>
-        <table *ngIf="substep.instruments[0]" class="table table-sm table-bordered instrument-table">
-          <thead>
-            <tr>
-              <th>Instrument</th>
-              <th>Assigned</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let instrument of substep.instruments">
-              <td>{{instrument.id | addspaces}}</td>
-              <td>{{instrument.assigned}}</td>
-            </tr>
-          </tbody>
-        </table>
-        <p><b>Anatomies:</b> {{substep.anatomies | addspacesarray}}</p>
-        <p><b>Extras:</b> {{substep.extras | addspacesarray}}</p>
+    <p class="substeps-bar-title">{{procedure.phases[selected_phase].steps[selected_step].name}} | SUBSTEPS
+      <span class="expand-icon fas fa-th-large" (click)="onExpand()" ngbTooltip="Detail View"></span>
+      <span class="close-icon fas fa-bars" (click)="onClose()" ngbTooltip="List View"></span>
+      <span class="add-icon fas fa-plus-circle" (click)="onAdd('substep')" ngbTooltip="Add Substep"></span>
+    </p>
+    <div class="substep-box" *ngFor="let substep of procedure.phases[selected_phase].steps[selected_step].substeps; let i = index">
+      <p class="substep-bar-title">{{substep.name}}
+        <span class="angle-icon fas fa-angle-up" (click)="onCloseSubstep(i)" id="{{'angle_up_'+i}}" [style.display]="ShowSubstep('angle-up')"></span>
+        <span class="angle-icon fas fa-angle-down" (click)="onOpenSubstep(i)" id="{{'angle_down_'+i}}" [style.display]="ShowSubstep('angle-down')"></span>
+        <span class="edit-icon fas fa-edit" (click)="onEdit('substep', substep.name, i)" ngbTooltip="Edit Substep"></span>
+        <span class="delete-icon fas fa-trash-alt" (click)="onDelete('substep', substep.name, substep.id)" ngbTooltip="Delete Substep"></span>
+      </p>
+      <div class="substep-details" id="{{selected_phase+'_'+selected_step+'_'+i}}" [style.display]="ShowSubstep()">
+        <div class="substep-div">
+          <p><b>Action:</b> {{substep.action | addspaces}} <span *ngIf="!(substep.actionDescriptions === undefined || substep.actionDescriptions.length == 0)">({{substep.actionDescriptions | addspacesarray}})</span></p>
+          <table *ngIf="substep.instruments[0]&&checkInstruments(substep)" class="table table-sm table-bordered instrument-table">
+            <thead>
+              <tr>
+                <th>Instrument</th>
+                <th>Assigned</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let instrument of substep.instruments">
+                <tr *ngIf="instrument.assigned!='none'">
+                  <td>{{instrument.id | addspaces}}</td>
+                  <td>{{instrument.assigned}}</td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+          <p><b>Anatomies:</b> {{substep.anatomies | addspacesarray}}</p>
+          <p *ngIf="!(substep.extras === undefined || substep.extras.length == 0)"><b>Extras:</b> {{substep.extras}}</p>
+          <p *ngIf="i>0&&substep.order==procedure.phases[selected_phase].steps[selected_step].substeps[i-1].order"><b>Parallel with substep above <span class="fas fa-arrow-up"></span></b></p><!--&nbsp;<span [style.color]="getColor()">{{procedure.phases[selected_phase].steps[selected_step].substeps[i-1].name}}</span></p>-->
+          <p *ngIf="i<procedure.phases[selected_phase].steps[selected_step].substeps.length-1&&substep.order==procedure.phases[selected_phase].steps[selected_step].substeps[i+1].order"><b>Parallel with substep below <span class="fas fa-arrow-down"></span></b></p><!--&nbsp;<span [style.color]="getColor()">{{procedure.phases[selected_phase].steps[selected_step].substeps[i+1].name}}</span></p>-->
+        </div>
+        <div class="substep-img"><img src="{{substep.image}}" width="280px"></div>
       </div>
-      <div class="substep-img"><img src="../../assets/images{{substep.image}}" width="280px"></div>
-    </div>
-    <div class="add-div">
-      <button class="add-btn btn btn-primary" (click)="onAdd('substep')"><span class="add-icon fas fa-plus"></span>Add Substep</button>
     </div>
   </div>
 
   <div class="add-substep-window" *ngIf="addMode=='substep'">
     <div id="substep-form-div">
-      <div class="title-text">Add a new Substep inside Step: <b>{{ procedure.phases[selected_phase].steps[selected_step].name | addspaces }}</b></div>
+      <div class="edit-title-text">Add a new Substep inside Step: <b>{{ procedure.phases[selected_phase].steps[selected_step].name | addspaces }}</b></div>
       <form id="substep-form" #substepForm="ngForm">
           <select class="custom-select edit-form-input substep-placement" autofocus [(ngModel)]="placement" name="substep-placement">
             <option value="none" disabled selected>Substep Placement</option>
@@ -79,25 +89,34 @@
             <option value="after">After</option>
           </select>
           <select class="custom-select edit-form-input substep-order" id="sel-order" [(ngModel)]="add_substep.order" #substepPosition
-          autofocus 
+          autofocus
           name="procedure-position">
             <option value="0" disabled selected>Select Substep</option>
             <option *ngFor="let substep of procedure.phases[selected_phase].steps[selected_step].substeps; let i=index" value={{substep.order}}>{{substep.name | addspaces}}</option>
           </select>
           <input name="substep-name" id="substep-name" type="text" class="form-control edit-form-input" placeholder="Substep Name" autofocus required [(ngModel)]="add_substep.name" #substepName>
-          <select class="custom-select edit-form-input" id="sel-action" [(ngModel)]="add_substep.action" #substepAction
-            autofocus 
-            name="substep-action" (change)="onActionChange(add_substep.action)">
-              <option value="none" disabled>Select Action</option>
-              <option *ngFor="let action of actions; let i=index" value={{action}}>{{action | addspaces}}</option>
+          <div class="action-div">
+            <select class="custom-select edit-form-input sel-action" id="sel-action" [(ngModel)]="add_substep.action" #selectedAction
+              autofocus
+              name="substep-action" (change)="onActionChange(add_substep.action)">
+                <option value="none" disabled>Select Action</option>
+                <option *ngFor="let action of actions; let i=index" value={{action}}>{{action | addspaces}}</option>
+            </select>
+            <p class="inline-form-p-desc" *ngIf="add_substep.actionDescriptions[0]">(<span *ngFor="let desc of add_substep.actionDescriptions; let isLast=last ">{{ desc }}{{isLast ? '' : ', '}}</span>)</p>
+            <i class="fas fa-spinner fa-pulse fa-2x small-loading" *ngIf="small_loading"></i>
+          </div>
+
+          <select class="custom-select edit-form-input short-form-input" id="sel-description" [(ngModel)]="action_description" #substepDesc
+            autofocus
+            name="procedure-action-desc">
+              <option value="none" disabled>Select Action Description</option>
+              <option *ngFor="let desc of action_desc; let i=index" value={{desc}}>{{desc | addspaces}}</option>
           </select>
-          <select class="custom-select edit-form-input" id="sel-instruments" [(ngModel)]="instrument" #substepInstrument
-            autofocus 
-            name="procedure-instrument">
-              <option value="none" disabled>Select Instrument</option>
-              <option *ngFor="let instrument of instruments; let i=index" value={{instrument}}>{{instrument | addspaces}}</option>
-          </select><button class="add-btn btn btn-primary btn-sm add-btn-sm" (click)="onAddInstrument('substep')"><span class="add-icon fas fa-plus"></span>Add Instrument</button>
-          <table *ngIf="add_substep.instruments[0].id!=''" class="table table-sm table-bordered instrument-table">
+          <button class="add-btn btn btn-primary btn-sm add-btn-sm add-btn-desc" (click)="onAddDesc('substep')" [disabled]="substepDesc.value=='none'"><span class="add-icon-btn fas fa-plus"></span>Insert</button>
+          <button class="rem-btn btn btn-danger btn-sm" (click)="onRemoveDesc('substep')" [disabled]="add_substep.actionDescriptions.length==0"><span class="rem-icon-btn fas fa-times"></span>Remove</button>
+
+          <hr>
+          <table *ngIf="add_substep.instruments[0]&&add_substep.instruments[0].id!=''" class="table table-sm table-bordered instrument-table-edit">
             <thead>
               <tr>
                 <th>Instrument</th>
@@ -105,41 +124,109 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let instrument of add_substep.instruments">
-                <td>{{instrument.id | addspaces}}</td>
-                <td><select name="instrument-assigned" class="custom-select" [(ngModel)]="instrument.assigned">
-                      <option value="none">None</option>
-                      <option value="Robot Left" [disabled]="disableAssignOptionAdd('Robot Left', 'substep')">Robot Left</option>
-                      <option value="Robot Right" [disabled]="disableAssignOptionAdd('Robot Right', 'substep')">Robot Right</option>
-                      <option value="Assistant Left" [disabled]="disableAssignOptionAdd('Assistant Left', 'substep')">Assistant Left</option>
-                      <option value="Assistant Right" [disabled]="disableAssignOptionAdd('Assistant Right', 'substep')">Assistant Right</option>
-                    </select></td>
+              <tr *ngFor="let instrument of add_substep.instruments; let i = index">
+                <td class="instrument-table-name">{{instrument.id | addspaces}}</td>
+                <td>
+                  <select name="instrument-assigned-{{i}}" class="custom-select" [(ngModel)]="instrument.assigned">
+                    <option value="none">None</option>
+                    <option value="Robot Left" [selected]="'Robot Left' == instrument.assigned" [disabled]="disableAssignOptionAdd('Robot Left', 'substep')" *ngIf="isAssignable('robot', instrument.id)">Robot Left</option>
+                    <option value="Robot Right" [selected]="'Robot Right' == instrument.assigned" [disabled]="disableAssignOptionAdd('Robot Right', 'substep')" *ngIf="isAssignable('robot', instrument.id)">Robot Right</option>
+                    <option value="Assistant Left" [selected]="'Assistant Left' == instrument.assigned" [disabled]="disableAssignOptionAdd('Assistant Left', 'substep')" *ngIf="isAssignable('human', instrument.id)">Assistant Left</option>
+                    <option value="Assistant Right" [selected]="'Assistant Right' == instrument.assigned" [disabled]="disableAssignOptionAdd('Assistant Right', 'substep')" *ngIf="isAssignable('human', instrument.id)">Assistant Right</option>
+                  </select>
+                </td>
               </tr>
             </tbody>
           </table>
-          <select class="custom-select edit-form-input" id="sel-anatomy" [(ngModel)]="anatomy" #substepAnatomy
-            autofocus 
+          <select class="custom-select edit-form-input short-form-input" id="sel-instruments" [(ngModel)]="instrument" #substepInstrument
+            autofocus
+            name="procedure-instrument">
+              <option value="none" disabled>Select Instrument</option>
+              <option *ngFor="let instrument of instruments; let i=index" value={{instrument.id}}>{{instrument.id | addspaces}}</option>
+          </select>
+          <button class="add-btn btn btn-primary btn-sm add-btn-sm" (click)="onAddInstrument('substep')" [disabled]="substepInstrument.value=='none'||isInstrumentAvailable(substepInstrument.value)"><span class="add-icon-btn fas fa-plus"></span>Insert</button>
+          <button class="rem-btn btn btn-danger btn-sm" (click)="onRemoveInstrument('substep', substepInstrument.value)" [disabled]="!isInstrumentAvailable(substepInstrument.value)"><span class="rem-icon-btn fas fa-times" ></span>Remove</button>
+          <hr>
+          <p class="inline-form-p" *ngIf="add_substep.anatomies[0]"><b>Anatomies: </b><span *ngFor="let anatomy of add_substep.anatomies" class="anatomy-bubble">{{ anatomy | addspaces}}</span></p>
+          <select class="custom-select edit-form-input short-form-input" id="sel-anatomy" [(ngModel)]="anatomy" #substepAnatomy
+            autofocus
             name="procedure-anatomy">
               <option value="none" disabled>Select Anatomy</option>
               <option *ngFor="let anatomy of anatomies; let i=index" value={{anatomy}}>{{anatomy | addspaces}}</option>
-          </select><button class="add-btn btn btn-primary btn-sm add-btn-sm add-btn-anatomy" (click)="onAddAnatomy('substep')"><span class="add-icon fas fa-plus"></span>Add Anatomy</button>
-          <p class="inline-form-p">Selected Anatomies: <span *ngFor="let anatomy of add_substep.anatomies">| {{ anatomy | addspaces}} </span></p>
-          <input name="substep-extras" id="substep-extras" type="text" class="form-control edit-form-input" placeholder="Extras" autofocus [(ngModel)]="add_substep.extras" #substepExtras>          
+          </select>
+          <button class="add-btn btn btn-primary btn-sm add-btn-sm add-btn-anatomy" (click)="onAddAnatomy('substep')" [disabled]="substepAnatomy.value=='none'||add_substep.anatomies.includes(substepAnatomy.value)"><span class="add-icon-btn fas fa-plus"></span>Insert</button>
+          <button class="rem-btn btn btn-danger btn-sm" (click)="onRemoveAnatomy('substep', substepAnatomy.value)" [disabled]="!add_substep.anatomies.includes(substepAnatomy.value)"><span class="rem-icon-btn fas fa-times"></span>Remove</button>
+          <hr>
+          <div class="new-buttons">
+            <button class="btn btn-primary" (click)="OpenModal(newanatomy)">New Anatomy</button>
+            <button class="btn btn-primary new-instr" (click)="OpenModal(newinstrument)">New Instrument</button>
+          </div>
+          <input name="substep-extras" id="substep-extras" type="text" class="form-control edit-form-input" placeholder="Extras" autofocus [(ngModel)]="add_substep.extras" #substepExtras>
           <div class="image-div">
             <label for="file-upload" class="custom-file-upload">
               <i class="fa fa-images"></i> Select Image
             </label>
-            <input id="file-upload" type="file" (change)="imageFileEvent($event)"/>
-            <p class="image-file">{{selectedImage}}</p>
+            <input id="file-upload" type="file" accept="image/*" (change)="imageFileEvent($event)"/>
+            <p class="image-file" *ngIf="selectedImage!=''">{{selectedImage | limitchar:30}}</p>
+            <p class="image-file" *ngIf="selectedImage==''">No image selected</p>
+            <button class="btn btn-primary btn-sm upload-btn" *ngIf="selectedImage!=''" (click)="onUpload()">Upload</button><i *ngIf="uploading_now" class="fa fa-circle-o-notch fa-spin"></i><i *ngIf="uploaded_image" style="color: green;" class="fa fa-check"></i>
           </div>
           <div class="save-btn"><button type="submit" class="btn btn-primary" id="substep-save-btn" [disabled]="!substepForm.form.valid" (click)="onSaveSubstep()">Save</button></div>
       </form>
     </div>
   </div>
 
+  <ng-template #newanatomy let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Add a new Anatomy</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input id="new-anatomy-name" class="form-control" type="text" autofocus placeholder="Anatomy Name" #newanatomyname>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" (click)="NewAnatomy(newanatomyname.value, newanatomy)">Save</button>
+      <button type="button" class="btn btn-danger" (click)="modal.close()">Cancel</button>
+    </div>
+  </ng-template>
+
+  <ng-template #newinstrument let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Add a new Instrument</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input id="new-instrument-name" class="form-control edit-form-input" type="text" autofocus placeholder="Instrument Name" #newinstrumentname>
+      <select class="custom-select instrument-type edit-form-input" autofocus name="instrument-type" #newinstrumenttype>
+        <option value="none" disabled selected>Instrument Type</option>
+        <option *ngFor="let type of all_instrument_types; let i=index" value={{type}}>{{type | addspaces}}</option>
+      </select>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="check_robot" [(ngModel)]="check_robot">
+        <label class="form-check-label" for="check_robot">
+          Can be used by robot
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="check_human" [(ngModel)]="check_human">
+        <label class="form-check-label" for="check_human">
+          Can be used by human
+        </label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" (click)="NewInstrument(newinstrumentname.value, newinstrumenttype.value, newinstrument)">Save</button>
+      <button type="button" class="btn btn-danger" (click)="modal.close()">Cancel</button>
+    </div>
+  </ng-template>
+
   <div class="add-step-window" *ngIf="addMode=='step'">
     <div id="step-form-div">
-      <div class="title-text">Add a new Step inside Phase: <b>{{ procedure.phases[selected_phase].name | addspaces }}</b></div>
+      <div class="edit-title-text">Add a new Step inside Phase: <b>{{ procedure.phases[selected_phase].name | addspaces }}</b></div>
       <form id="step-form" #stepForm="ngForm">
         <select class="custom-select edit-form-input substep-placement" autofocus [(ngModel)]="placement" name="step-placement">
           <option value="none" disabled selected>Step Placement</option>
@@ -147,7 +234,7 @@
           <option value="after">After</option>
         </select>
         <select class="custom-select edit-form-input substep-order" id="sel-order" [(ngModel)]="add_step.order" #stepPosition
-        autofocus 
+        autofocus
         name="procedure-position">
           <option value="0" disabled selected>Select Step</option>
           <option *ngFor="let step of procedure.phases[selected_phase].steps; let i=index" value={{step.order}}>{{step.name | addspaces}}</option>
@@ -155,21 +242,31 @@
         <input name="step-name" id="step-name" type="text" class="form-control edit-form-input" placeholder="Step Name" autofocus required [(ngModel)]="add_step.name" #stepName>
         <div *ngIf="add_step.name">
           <hr>
-          <div class="title-text">Details of the first Substep of Step: <b>{{ add_step.name}}</b></div>
+          <div class="edit-title-text">Details of the first Substep of Step: <b>{{ add_step.name}}</b></div>
           <input name="substep-name" id="substep-name" type="text" class="form-control edit-form-input" placeholder="Substep Name" autofocus required [(ngModel)]="add_step.substep.name" #substepName>
-          <select class="custom-select edit-form-input" id="sel-action" [(ngModel)]="add_step.substep.action" #substepAction
-            autofocus 
-            name="substep-action" (change)="onActionChange(add_step.substep.action)">
-              <option value="none" disabled>Select Action</option>
-              <option *ngFor="let action of actions; let i=index" value={{action}}>{{action | addspaces}}</option>
-          </select>          
-          <select class="custom-select edit-form-input" id="sel-instruments" [(ngModel)]="this.instrument" #substepInstrument
-            autofocus 
-            name="procedure-instrument">
-              <option value="none" disabled>Select Instrument</option>
-              <option *ngFor="let instrument of instruments; let i=index" value={{instrument}}>{{instrument | addspaces}}</option>
-          </select><button class="add-btn btn btn-primary btn-sm add-btn-sm" (click)="onAddInstrument('step')"><span class="add-icon fas fa-plus"></span>Add Instrument</button>
-          <table *ngIf="add_step.substep.instruments[0].id!=''" class="table table-sm table-bordered instrument-table">
+
+          <div class="action-div">
+            <select class="custom-select edit-form-input sel-action" id="sel-action" [(ngModel)]="add_step.substep.action" #selectedAction
+              autofocus
+              name="step-action" (change)="onActionChange(add_step.substep.action)">
+                <option value="none" disabled>Select Action</option>
+                <option *ngFor="let action of actions; let i=index" value={{action}}>{{action | addspaces}}</option>
+            </select>
+            <p class="inline-form-p-desc" *ngIf="add_step.substep.actionDescriptions[0]">(<span *ngFor="let desc of add_step.substep.actionDescriptions; let isLast=last ">{{ desc }}{{isLast ? '' : ', '}}</span>)</p>
+            <i class="fas fa-spinner fa-pulse fa-2x small-loading" *ngIf="small_loading"></i>
+          </div>
+
+          <select class="custom-select edit-form-input short-form-input" id="sel-description" [(ngModel)]="action_description" #substepDesc
+            autofocus
+            name="procedure-action-desc">
+              <option value="none" disabled>Select Action Description</option>
+              <option *ngFor="let desc of action_desc; let i=index" value={{desc}}>{{desc | addspaces}}</option>
+          </select>
+          <button class="add-btn btn btn-primary btn-sm add-btn-sm add-btn-desc" (click)="onAddDesc('step')" [disabled]="substepDesc.value=='none'"><span class="add-icon-btn fas fa-plus"></span>Insert</button>
+          <button class="rem-btn btn btn-danger btn-sm" (click)="onRemoveDesc('step')" [disabled]="add_step.substep.actionDescriptions.length==0"><span class="rem-icon-btn fas fa-times"></span>Remove</button>
+
+          <hr>
+          <table *ngIf="add_step.substep.instruments[0]&&add_step.substep.instruments[0].id!=''" class="table table-sm table-bordered instrument-table-edit">
             <thead>
               <tr>
                 <th>Instrument</th>
@@ -177,32 +274,50 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let instrument of add_step.substep.instruments">
-                <td>{{instrument.id | addspaces}}</td>
-                <td><select name="instrument-assigned" class="custom-select" [(ngModel)]="instrument.assigned">
+              <tr *ngFor="let instrument of add_step.substep.instruments; let i = index;">
+                <td class="instrument-table-name">{{instrument.id | addspaces}}</td>
+                <td><select name="instrument-assigned-{{i}}" class="custom-select" [(ngModel)]="instrument.assigned">
                       <option value="none">None</option>
-                      <option value="Robot Left" [disabled]="disableAssignOptionAdd('Robot Left', 'step')">Robot Left</option>
-                      <option value="Robot Right" [disabled]="disableAssignOptionAdd('Robot Right', 'step')">Robot Right</option>
-                      <option value="Assistant Left" [disabled]="disableAssignOptionAdd('Assistant Left', 'step')">Assistant Left</option>
-                      <option value="Assistant Right" [disabled]="disableAssignOptionAdd('Assistant Right', 'step')">Assistant Right</option>
+                      <option value="Robot Left" [disabled]="disableAssignOptionAdd('Robot Left', 'step')" *ngIf="isAssignable('robot', instrument.id)">Robot Left</option>
+                      <option value="Robot Right" [disabled]="disableAssignOptionAdd('Robot Right', 'step')" *ngIf="isAssignable('robot', instrument.id)">Robot Right</option>
+                      <option value="Assistant Left" [disabled]="disableAssignOptionAdd('Assistant Left', 'step')" *ngIf="isAssignable('human', instrument.id)">Assistant Left</option>
+                      <option value="Assistant Right" [disabled]="disableAssignOptionAdd('Assistant Right', 'step')" *ngIf="isAssignable('human', instrument.id)">Assistant Right</option>
                     </select></td>
               </tr>
             </tbody>
           </table>
-          <select class="custom-select edit-form-input" id="sel-anatomy" [(ngModel)]="anatomy" #substepAnatomy
-            autofocus 
+          <select class="custom-select edit-form-input short-form-input" id="sel-instruments" [(ngModel)]="this.instrument" #substepInstrument
+            autofocus
+            name="procedure-instrument">
+              <option value="none" disabled>Select Instrument</option>
+              <option *ngFor="let instrument of instruments; let i=index" value={{instrument.id}}>{{instrument.id | addspaces}}</option>
+          </select>
+          <button class="add-btn btn btn-primary btn-sm add-btn-sm" (click)="onAddInstrument('step')" [disabled]="substepInstrument.value=='none'||isInstrumentAvailable(substepInstrument.value)"><span class="add-icon-btn fas fa-plus"></span>Insert</button>
+          <button class="rem-btn btn btn-danger btn-sm" (click)="onRemoveInstrument('step', substepInstrument.value)" [disabled]="!isInstrumentAvailable(substepInstrument.value)"><span class="rem-icon-btn fas fa-times"></span>Remove</button>
+          <hr>
+          <p class="inline-form-p" *ngIf="add_step.substep.anatomies[0]"><b>Anatomies: </b><span *ngFor="let anatomy of add_step.substep.anatomies" class="anatomy-bubble">{{ anatomy | addspaces}}</span></p>
+          <select class="custom-select edit-form-input short-form-input" id="sel-anatomy" [(ngModel)]="anatomy" #substepAnatomy
+            autofocus
             name="procedure-anatomy">
               <option value="none" disabled>Select Anatomy</option>
               <option *ngFor="let anatomy of anatomies; let i=index" value={{anatomy}}>{{anatomy | addspaces}}</option>
-          </select><button class="add-btn btn btn-primary btn-sm add-btn-sm add-btn-anatomy" (click)="onAddAnatomy('step')"><span class="add-icon fas fa-plus"></span>Add Anatomy</button>
-          <p class="inline-form-p">Selected Anatomies: <span *ngFor="let anatomy of add_step.substep.anatomies">| {{ anatomy | addspaces}} </span></p>
-          <input name="substep-extras" id="substep-extras" type="text" class="form-control edit-form-input" placeholder="Extras" autofocus [(ngModel)]="add_step.substep.extras" #substepExtras>          
+          </select>
+          <button class="add-btn btn btn-primary btn-sm add-btn-sm add-btn-anatomy" (click)="onAddAnatomy('step')" [disabled]="substepAnatomy.value=='none'||add_step.substep.anatomies.includes(substepAnatomy.value)"><span class="add-icon-btn fas fa-plus"></span>Insert</button>
+          <button class="rem-btn btn btn-danger btn-sm" (click)="onRemoveAnatomy('step', substepAnatomy.value)" [disabled]="!add_step.substep.anatomies.includes(substepAnatomy.value)"><span class="rem-icon-btn fas fa-times"></span>Remove</button>
+          <hr>
+          <div class="new-buttons">
+            <button class="btn btn-primary" (click)="OpenModal(newanatomy)">New Anatomy</button>
+            <button class="btn btn-primary new-instr" (click)="OpenModal(newinstrument)">New Instrument</button>
+          </div>
+          <input name="substep-extras" id="substep-extras" type="text" class="form-control edit-form-input" placeholder="Extras" autofocus [(ngModel)]="add_step.substep.extras" #substepExtras>
           <div class="image-div">
             <label for="file-upload" class="custom-file-upload">
               <i class="fa fa-images"></i> Select Image
             </label>
-            <input id="file-upload" type="file" (change)="imageFileEvent($event)"/>
-            <p class="image-file">{{selectedImage}}</p>
+            <input id="file-upload" type="file" accept="image/*" (change)="imageFileEvent($event)"/>
+            <p class="image-file" *ngIf="selectedImage!=''">{{selectedImage | limitchar:30}}</p>
+            <p class="image-file" *ngIf="selectedImage==''">No image selected</p>
+            <button class="btn btn-primary btn-sm upload-btn" *ngIf="selectedImage!=''" (click)="onUpload()">Upload</button><i *ngIf="uploading_now" class="fa fa-circle-o-notch fa-spin"></i><i *ngIf="uploaded_image" style="color: green;" class="fa fa-check"></i>
           </div>
           <div class="save-btn"><button type="submit" class="btn btn-primary" id="substep-save-btn" [disabled]="!stepForm.form.valid" (click)="onSaveStep()">Save</button></div>
         </div>
@@ -212,7 +327,7 @@
 
   <div class="add-phase-window" *ngIf="addMode=='phase'">
     <div id="phase-form-div">
-      <div class="title-text">Add a new Phase</div>
+      <div class="edit-title-text">Add a new Phase</div>
       <form id="phase-form" #phaseForm="ngForm">
         <select class="custom-select edit-form-input substep-placement" autofocus [(ngModel)]="placement" name="phase-placement">
           <option value="none" disabled selected>Phase Placement</option>
@@ -220,7 +335,7 @@
           <option value="after">After</option>
         </select>
         <select class="custom-select edit-form-input substep-order" id="sel-order" [(ngModel)]="add_phase.order" #phasePosition
-        autofocus 
+        autofocus
         name="procedure-position">
           <option value="0" disabled selected>Select Phase</option>
           <option *ngFor="let phase of procedure.phases; let i=index" value={{phase.order}}>{{phase.name | addspaces}}</option>
@@ -228,26 +343,36 @@
         <input name="phase-name" id="phase-name" type="text" class="form-control edit-form-input" placeholder="Phase Name" autofocus required [(ngModel)]="add_phase.name" #phaseName>
         <div *ngIf="add_phase.name">
           <hr>
-          <div class="title-text">Details of the first Step of Phase: <b>{{ add_phase.name}}</b></div>
+          <div class="edit-title-text">Details of the first Step of Phase: <b>{{ add_phase.name}}</b></div>
           <input name="step-name" id="step-name" type="text" class="form-control edit-form-input" placeholder="Step Name" autofocus required [(ngModel)]="add_phase.step.name" #stepName>
         </div>
         <div *ngIf="add_phase.step.name">
           <hr>
-          <div class="title-text">Details of the first Substep of Step: <b>{{ add_phase.step.name}}</b></div>
+          <div class="edit-title-text">Details of the first Substep of Step: <b>{{ add_phase.step.name}}</b></div>
           <input name="substep-name" id="substep-name" type="text" class="form-control edit-form-input" placeholder="Substep Name" autofocus required [(ngModel)]="add_phase.step.substep.name" #substepName>
-          <select class="custom-select edit-form-input" id="sel-action" [(ngModel)]="add_phase.step.substep.action" #substepAction
-            autofocus 
-            name="substep-action" (change)="onActionChange(add_phase.step.substep.action)">
-              <option value="none" disabled>Select Action</option>
-              <option *ngFor="let action of actions; let i=index" value={{action}}>{{action | addspaces}}</option>
-          </select>  
-          <select class="custom-select edit-form-input" id="sel-instruments" [(ngModel)]="this.instrument" #substepInstrument
-            autofocus 
-            name="procedure-instrument">
-              <option value="none" disabled>Select Instrument</option>
-              <option *ngFor="let instrument of instruments; let i=index" value={{instrument}}>{{instrument | addspaces}}</option>
-          </select><button class="add-btn btn btn-primary btn-sm add-btn-sm" (click)="onAddInstrument('phase')"><span class="add-icon fas fa-plus"></span>Add Instrument</button>
-          <table *ngIf="add_phase.step.substep.instruments[0].id!=''" class="table table-sm table-bordered instrument-table">
+
+          <div class="action-div">
+            <select class="custom-select edit-form-input sel-action" id="sel-action" [(ngModel)]="add_phase.step.substep.action" #selectedAction
+              autofocus
+              name="phase-action" (change)="onActionChange(add_phase.step.substep.action)">
+                <option value="none" disabled>Select Action</option>
+                <option *ngFor="let action of actions; let i=index" value={{action}}>{{action | addspaces}}</option>
+            </select>
+            <p class="inline-form-p-desc" *ngIf="add_phase.step.substep.actionDescriptions[0]">(<span *ngFor="let desc of add_phase.step.substep.actionDescriptions; let isLast=last ">{{ desc }}{{isLast ? '' : ', '}}</span>)</p>
+            <i class="fas fa-spinner fa-pulse fa-2x small-loading" *ngIf="small_loading"></i>
+          </div>
+
+          <select class="custom-select edit-form-input short-form-input" id="sel-description" [(ngModel)]="action_description" #substepDesc
+            autofocus
+            name="procedure-action-desc">
+              <option value="none" disabled>Select Action Description</option>
+              <option *ngFor="let desc of action_desc; let i=index" value={{desc}}>{{desc | addspaces}}</option>
+          </select>
+          <button class="add-btn btn btn-primary btn-sm add-btn-sm add-btn-desc" (click)="onAddDesc('phase')" [disabled]="substepDesc.value=='none'"><span class="add-icon-btn fas fa-plus"></span>Insert</button>
+          <button class="rem-btn btn btn-danger btn-sm" (click)="onRemoveDesc('phase')" [disabled]="add_phase.step.substep.actionDescriptions.length==0"><span class="rem-icon-btn fas fa-times"></span>Remove</button>
+
+          <hr>
+          <table *ngIf="add_phase.step.substep.instruments[0]&&add_phase.step.substep.instruments[0].id!=''" class="table table-sm table-bordered instrument-table-edit">
             <thead>
               <tr>
                 <th>Instrument</th>
@@ -255,32 +380,52 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let instrument of add_phase.step.substep.instruments">
-                <td>{{instrument.id | addspaces}}</td>
-                <td><select name="instrument-assigned" class="custom-select" [(ngModel)]="instrument.assigned">
-                      <option value="none">None</option>
-                      <option value="Robot Left" [disabled]="disableAssignOptionAdd('Robot Left', 'phase')">Robot Left</option>
-                      <option value="Robot Right" [disabled]="disableAssignOptionAdd('Robot Right', 'phase')">Robot Right</option>
-                      <option value="Assistant Left" [disabled]="disableAssignOptionAdd('Assistant Left', 'phase')">Assistant Left</option>
-                      <option value="Assistant Right" [disabled]="disableAssignOptionAdd('Assistant Right', 'phase')">Assistant Right</option>
-                    </select></td>
+              <tr *ngFor="let instrument of add_phase.step.substep.instruments; let i=index">
+                <td class="instrument-table-name">{{instrument.id | addspaces}}</td>
+                <td>
+                  <select name="instrument-assigned-{{i}}" class="custom-select" [(ngModel)]="instrument.assigned">
+                    <option value="none">None</option>
+                    <option value="Robot Left" [disabled]="disableAssignOptionAdd('Robot Left', 'phase')" *ngIf="isAssignable('robot', instrument.id)">Robot Left</option>
+                    <option value="Robot Right" [disabled]="disableAssignOptionAdd('Robot Right', 'phase')"  *ngIf="isAssignable('robot', instrument.id)">Robot Right</option>
+                    <option value="Assistant Left" [disabled]="disableAssignOptionAdd('Assistant Left', 'phase')" *ngIf="isAssignable('human', instrument.id)">Assistant Left</option>
+                    <option value="Assistant Right" [disabled]="disableAssignOptionAdd('Assistant Right', 'phase')" *ngIf="isAssignable('human', instrument.id)">Assistant Right</option>
+                  </select>
+                </td>
               </tr>
             </tbody>
           </table>
-          <select class="custom-select edit-form-input" id="sel-anatomy" [(ngModel)]="anatomy" #substepAnatomy
-            autofocus 
+          <select class="custom-select edit-form-input short-form-input" id="sel-instruments" [(ngModel)]="this.instrument" #substepInstrument
+            autofocus
+            name="procedure-instrument">
+              <option value="none" disabled>Select Instrument</option>
+              <option *ngFor="let instrument of instruments; let i=index" value={{instrument.id}}>{{instrument.id | addspaces}}</option>
+          </select>
+          <button class="add-btn btn btn-primary btn-sm add-btn-sm" (click)="onAddInstrument('phase')" [disabled]="substepInstrument.value=='none'||isInstrumentAvailable(substepInstrument.value)"><span class="add-icon-btn fas fa-plus"></span>Insert</button>
+          <button class="rem-btn btn btn-danger btn-sm" (click)="onRemoveInstrument('phase', substepInstrument.value)" [disabled]="!isInstrumentAvailable(substepInstrument.value)"><span class="rem-icon-btn fas fa-times"></span>Remove</button>
+          <hr>
+          <p class="inline-form-p" *ngIf="add_phase.step.substep.anatomies[0]"><b>Anatomies: </b><span *ngFor="let anatomy of add_phase.step.substep.anatomies" class="anatomy-bubble">{{ anatomy | addspaces}}</span></p>
+          <select class="custom-select edit-form-input short-form-input" id="sel-anatomy" [(ngModel)]="anatomy" #substepAnatomy
+            autofocus
             name="procedure-anatomy">
               <option value="none" disabled>Select Anatomy</option>
               <option *ngFor="let anatomy of anatomies; let i=index" value={{anatomy}}>{{anatomy | addspaces}}</option>
-          </select><button class="add-btn btn btn-primary btn-sm add-btn-sm add-btn-anatomy" (click)="onAddAnatomy('phase')"><span class="add-icon fas fa-plus"></span>Add Anatomy</button>
-          <p class="inline-form-p">Selected Anatomies: <span *ngFor="let anatomy of add_phase.step.substep.anatomies">| {{ anatomy | addspaces}} </span></p>
-          <input name="substep-extras" id="substep-extras" type="text" class="form-control edit-form-input" placeholder="Extras" autofocus [(ngModel)]="add_phase.step.substep.extras" #substepExtras>          
+          </select>
+          <button class="add-btn btn btn-primary btn-sm add-btn-sm add-btn-anatomy" (click)="onAddAnatomy('phase')" [disabled]="substepAnatomy.value=='none'||add_phase.step.substep.anatomies.includes(substepAnatomy.value)"><span class="add-icon-btn fas fa-plus"></span>Insert</button>
+          <button class="rem-btn btn btn-danger btn-sm" (click)="onRemoveAnatomy('phase', substepAnatomy.value)" [disabled]="!add_phase.step.substep.anatomies.includes(substepAnatomy.value)"><span class="rem-icon-btn fas fa-times"></span>Remove</button>
+          <hr>
+          <div class="new-buttons">
+            <button class="btn btn-primary" (click)="OpenModal(newanatomy)">New Anatomy</button>
+            <button class="btn btn-primary new-instr" (click)="OpenModal(newinstrument)">New Instrument</button>
+          </div>
+          <input name="substep-extras" id="substep-extras" type="text" class="form-control edit-form-input" placeholder="Extras" autofocus [(ngModel)]="add_phase.step.substep.extras" #substepExtras>
           <div class="image-div">
             <label for="file-upload" class="custom-file-upload">
               <i class="fa fa-images"></i> Select Image
             </label>
-            <input id="file-upload" type="file" (change)="imageFileEvent($event)"/>
-            <p class="image-file">{{selectedImage}}</p>
+            <input id="file-upload" type="file" accept="image/*" (change)="imageFileEvent($event)"/>
+            <p class="image-file" *ngIf="selectedImage!=''">{{selectedImage | limitchar:30}}</p>
+            <p class="image-file" *ngIf="selectedImage==''">No image selected</p>
+            <button class="btn btn-primary btn-sm upload-btn" *ngIf="selectedImage!=''" (click)="onUpload()">Upload</button><i *ngIf="uploaded_image" style="color: green;" class="fa fa-check"></i>
           </div>
           <div class="save-btn"><button type="submit" class="btn btn-primary" id="substep-save-btn" [disabled]="!phaseForm.form.valid" (click)="onSavePhase()">Save</button></div>
         </div>
@@ -290,19 +435,35 @@
 
   <div class="edit-substep-window" *ngIf="editMode=='substep'&&addMode=='no'">
     <div id="substep-form-div">
-      <div class="title-text">Editing Substep: <b>{{ edit_substep.name | addspaces }}</b></div>
+      <div class="edit-title-text">Editing Substep: <b>{{ edit_substep.name | addspaces }}</b></div>
       <form id="substep-form" #substepEditForm="ngForm">
-          <input name="substep-name" id="substep-name" type="text" class="form-control edit-form-input" placeholder="Substep Name" 
-              autofocus required 
+          <input name="substep-name" id="substep-name" type="text" class="form-control edit-form-input" placeholder="Substep Name"
+              autofocus required
               [(ngModel)]="edit_substep.name" #substepName
               value="{{edit_substep.name}}">
-          <select class="custom-select edit-form-input" id="sel-action" [(ngModel)]="edit_substep.action" #substepAction
-            autofocus 
-            name="substep-action" (change)="onActionChange(edit_substep.action)">
-              <option value="none" disabled>Select Action</option>
-              <option *ngFor="let action of actions; let i=index" value={{action}}>{{action | addspaces}}</option>
+
+          <div class="action-div">
+            <select class="custom-select edit-form-input action-sel sel-action" id="sel-action" [(ngModel)]="edit_substep.action" #selectedAction
+              autofocus
+              name="substep-action" (change)="onActionChange(edit_substep.action)">
+                <option value="none" disabled>Select Action</option>
+                <option *ngFor="let action of actions; let i=index" value={{action}}>{{action | addspaces}}</option>
+            </select>
+            <p class="inline-form-p-desc" *ngIf="edit_substep.actionDescriptions[0]">(<span *ngFor="let desc of edit_substep.actionDescriptions; let isLast=last ">{{ desc }}{{isLast ? '' : ', '}}</span>)</p>
+            <i class="fas fa-spinner fa-pulse fa-2x small-loading" *ngIf="small_loading"></i>
+          </div>
+
+          <select class="custom-select edit-form-input short-form-input" id="sel-description" [(ngModel)]="action_description" #substepDesc
+            autofocus
+            name="procedure-action-desc">
+              <option value="none" disabled>Select Action Description</option>
+              <option *ngFor="let desc of action_desc; let i=index" value={{desc}}>{{desc | addspaces}}</option>
           </select>
-          <table *ngIf="edit_substep.instruments[0]" class="table table-sm table-bordered instrument-table">
+          <button class="add-btn btn btn-primary btn-sm add-btn-sm add-btn-desc" (click)="onAddDescEdit('substep')" [disabled]="substepDesc.value=='none'"><span class="add-icon-btn fas fa-plus"></span>Insert</button>
+          <button class="rem-btn btn btn-danger btn-sm" (click)="onRemoveDescEdit('substep')" [disabled]="edit_substep.actionDescriptions.length==0"><span class="rem-icon-btn fas fa-times"></span>Remove</button>
+
+          <hr>
+          <table *ngIf="edit_substep.instruments[0]" class="table table-sm table-bordered instrument-table-edit">
             <thead>
               <tr>
                 <th>Instrument</th>
@@ -310,38 +471,54 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let instrument of edit_substep.instruments">
-                <td>{{instrument.id | addspaces}}</td>
-                <td><select name="instrument-assigned" class="custom-select" [(ngModel)]="instrument.assigned">
-                      <option value="none">None</option>
-                      <option value="Robot Left" [disabled]="disableAssignOption('Robot Left')">Robot Left</option>
-                      <option value="Robot Right" [disabled]="disableAssignOption('Robot Right')">Robot Right</option>
-                      <option value="Assistant Left" [disabled]="disableAssignOption('Assistant Left')">Assistant Left</option>
-                      <option value="Assistant Right" [disabled]="disableAssignOption('Assistant Right')">Assistant Right</option>
-                    </select></td>
+              <tr *ngFor="let instrument of edit_substep.instruments; let i=index">
+                <td class="instrument-table-name">{{instrument.id | addspaces}}</td>
+                <td>
+                  <select name="instrument-assigned-{{i}}" class="custom-select" [(ngModel)]="instrument.assigned">
+                    <option value="none">None</option>
+                    <option value="Robot Left" [disabled]="disableAssignOption('Robot Left')" *ngIf="isAssignable('robot', instrument.id)">Robot Left</option>
+                    <option value="Robot Right" [disabled]="disableAssignOption('Robot Right')" *ngIf="isAssignable('robot', instrument.id)">Robot Right</option>
+                    <option value="Assistant Left" [disabled]="disableAssignOption('Assistant Left')" *ngIf="isAssignable('human', instrument.id)">Assistant Left</option>
+                    <option value="Assistant Right" [disabled]="disableAssignOption('Assistant Right')" *ngIf="isAssignable('human', instrument.id)">Assistant Right</option>
+                  </select>
+                </td>
               </tr>
             </tbody>
           </table>
-          <select class="custom-select edit-form-input" id="sel-instruments" [(ngModel)]="this.instrument" #substepInstrument
-            autofocus 
+          <select class="custom-select edit-form-input short-form-input" id="sel-instruments" [(ngModel)]="this.instrument" #substepInstrument
+            autofocus
             name="procedure-instrument">
               <option value="none" disabled>Select Instrument</option>
-              <option *ngFor="let instrument of instruments; let i=index" value={{instrument}}>{{instrument | addspaces}}</option>
-          </select><button class="add-btn btn btn-primary btn-sm add-btn-sm" (click)="onAddInstrumentEdit('substep')"><span class="add-icon fas fa-plus"></span>Add Instrument</button>
-          <select class="custom-select edit-form-input" id="sel-anatomy" [(ngModel)]="anatomy" #substepAnatomy
-            autofocus 
+              <option *ngFor="let instrument of instrument_names; let i=index" value={{instrument}}>{{instrument | addspaces}}</option>
+          </select>
+          <button class="add-btn btn btn-primary btn-sm add-btn-sm" (click)="onAddInstrumentEdit()" [disabled]="substepInstrument.value=='none'||isInstrumentAvailable(substepInstrument.value)"><span class="add-icon-btn fas fa-plus"></span>Insert</button>
+          <button class="rem-btn btn btn-danger btn-sm" (click)="onRemoveInstrumentEdit(substepInstrument.value)" [disabled]="!isInstrumentAvailable(substepInstrument.value)"><span class="rem-icon-btn fas fa-times"></span>Remove</button>
+          <hr>
+          <p class="inline-form-p" *ngIf="edit_substep.anatomies[0]"><b>Anatomies: </b><span *ngFor="let anatomy of edit_substep.anatomies" class="anatomy-bubble">{{ anatomy | addspaces}}</span></p>
+
+          <select class="custom-select edit-form-input short-form-input" id="sel-anatomy" [(ngModel)]="anatomy" #substepAnatomy
+            autofocus
             name="procedure-anatomy">
               <option value="none" disabled>Select Anatomy</option>
               <option *ngFor="let anatomy of anatomies; let i=index" value={{anatomy}}>{{anatomy | addspaces}}</option>
-          </select><button class="add-btn btn btn-primary btn-sm add-btn-sm  add-btn-anatomy" (click)="onAddAnatomyEdit('substep')"><span class="add-icon fas fa-plus"></span>Add Anatomy</button>
-          <p class="inline-form-p">Selected Anatomies: <span *ngFor="let anatomy of edit_substep.anatomies">| {{ anatomy | addspaces}} </span></p>
-          <input name="substep-extras" id="substep-extras" type="text" class="form-control edit-form-input" placeholder="Extras" autofocus [(ngModel)]="add_substep.extras" #substepExtras>          
+          </select>
+          <button class="add-btn btn btn-primary btn-sm add-btn-sm" (click)="onAddAnatomyEdit()" [disabled]="substepAnatomy.value=='none'||edit_substep.anatomies.includes(substepAnatomy.value)"><span class="add-icon-btn fas fa-plus"></span>Insert</button>
+          <button class="rem-btn btn btn-danger btn-sm" (click)="onRemoveAnatomyEdit(substepAnatomy.value)" [disabled]="!edit_substep.anatomies.includes(substepAnatomy.value)"><span class="rem-icon-btn fas fa-times"></span>Remove</button>
+
+          <hr>
+          <div class="new-buttons">
+            <button class="btn btn-primary" (click)="OpenModal(newanatomy)">New Anatomy</button>
+            <button class="btn btn-primary new-instr" (click)="OpenModal(newinstrument)">New Instrument</button>
+          </div>
+          <input name="substep-extras" id="substep-extras" type="text" class="form-control edit-form-input" placeholder="Extras" autofocus [(ngModel)]="edit_substep.extras" #substepExtras>
           <div class="image-div">
             <label for="file-upload" class="custom-file-upload">
               <i class="fa fa-images"></i> Select Image
             </label>
-            <input id="file-upload" type="file" (change)="imageFileEvent($event)"/>
-            <p class="image-file">{{selectedImage}}</p>
+            <input id="file-upload" type="file" accept="image/*" (change)="imageFileEvent($event)"/>
+            <p class="image-file" *ngIf="selectedImage!=''">{{selectedImage | limitchar:30}}</p>
+            <p class="image-file" *ngIf="selectedImage==''">No image selected</p>
+            <button class="btn btn-primary btn-sm upload-btn" *ngIf="selectedImage!=''" (click)="onUpload()">Upload</button><i *ngIf="uploading_now" class="fa fa-spinner fa-spin fa-fw"></i><i *ngIf="uploaded_image" style="color: green;" class="fa fa-check"></i>
           </div>
           <div class="save-btn"><button type="submit" class="btn btn-primary" id="substep-save-btn" [disabled]="!substepEditForm.form.valid" (click)="onSaveEditSubstep()">Save</button></div>
       </form>

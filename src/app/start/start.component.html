@@ -1,29 +1,93 @@
-<div id="index-main">	
+<div id="index-main">
   <div id="logo">
-      <img src="../../assets/images/logo.jpg" width="120px">
-      <h2 id="logo-title">SMARTSurg</h2>
+      <img src="./assets/images/logo.jpg" width="100px">
+      <span class="logo-text"><span style="color:#3282bc;">SMART</span><span style="color:#19af74;">Surg</span></span>
   </div>
-  <div id="form">
-      <div id="title-text">Start using the interface by performing or editing a procedure</div>
-      <form id="form-procedure" #procedureForm="ngForm">
-          <select class="custom-select" id="sel-type" [(ngModel)]="procedure_request.type" #procedureType
-            autofocus required 
-            name="procedure-type"  pattern="^((?!none).)*$" (change)="onTypeSelect(procedureType.value)">
-              <option value="none" disabled>Select Procedure Type</option>
-              <option *ngFor="let type of types; let i=index" value={{type}}>{{type}}</option>
-          </select>
-          <select class="custom-select" id="sel-name" [(ngModel)]="procedure_request.procedure" #procedureProcedure
-            autofocus required 
-            name="procedure-procedure"  pattern="^((?!none).)*$" *ngIf="procedure_request.type!='none'">
-              <option value="none" disabled>Select Procedure</option>
-              <option *ngFor="let name of names; let i=index" value={{name}}>{{name}}</option>
-          </select>
-          <input name="procedure-newname" id="procedure-name" type="text" class="form-control" 
-                placeholder="New Procedure Name" autofocus
-                [(ngModel)]="procedure_request.name" #procedureName *ngIf="create==true">
-          <br>
-          <button type="submit" class="btn btn-primary" id="load-procedure" [disabled]="!procedureForm.form.valid" (click)="onCreate()">Create</button>
-          <button type="submit" class="btn btn-primary" id="edit-procedure" [disabled]="!procedureForm.form.valid" (click)="onEdit()">Edit</button>
-      </form>
+
+  <div id="title-text">R-A MIS Protocol Extraction and Verification GUI</div>
+
+  <div id="form" *ngIf="choice">
+    <form id="form-procedure" #procedureForm="ngForm">
+      <mat-form-field id="sel-type">
+        <mat-label>Select R-A MIS Type</mat-label>
+        <mat-select class="" [(ngModel)]="procedure_request.type" #procedureType
+          autofocus required
+          name="procedure-type"  pattern="^((?!none).)*$" (selectionChange)="onTypeSelect(procedureType.value)">
+            <mat-option *ngFor="let type of types; let i=index" value={{type}}>{{type}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field *ngIf="procedure_request.type!='none'&&!create" id="sel-name">
+        <mat-label>Select Procedure</mat-label>
+        <mat-select class="" [(ngModel)]="procedure_request.procedure" #procedureProcedure
+          autofocus required
+          name="procedure-procedure"  pattern="^((?!none).)*$">
+            <mat-option *ngFor="let name of names; let i=index" value={{name}}>{{name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!--<mat-form-field *ngIf="procedure_request.procedure!='none'" id="procedure-name">
+        <input matInput name="procedure-newname" type="text" class=""
+              placeholder="New Procedure Name" autofocus
+              [(ngModel)]="procedure_request.name" #procedureName>
+      </mat-form-field>-->
+        <br>
+	<button class="btn btn-primary" id="back-procedure" (click)="choice=false">Back</button>
+        <button type="submit" class="btn btn-primary" id="proceed-procedure" [disabled]="!procedureForm.form.valid" (click)="onProceed()">Proceed</button>
+    </form>
   </div>
+
+  <div class="control-panel" *ngIf="!choice">
+    <button type="submit" class="btn btn-primary control-btn" id="create-procedure" (click)="onChoice('create')"><span class="fa fa-file"></span>Create Protocol</button>
+    <button type="submit" class="btn btn-primary control-btn" id="edit-procedure" (click)="onChoice('edit')"><span class="fa fa-edit"></span>Edit Protocol</button>
+    <button type="submit" class="btn btn-primary control-btn" id="load-procedure" (click)="onChoice('perform')"><span class="fa fa-heartbeat"></span>Perform Procedure</button>
+    <button type="submit" class="btn btn-primary control-btn" id="review-procedure" (click)="onChoice('review')"><span class="fa fa-eye"></span>Review Procedure</button>
+  </div>
+
+  <ng-template #onedit let-modal>
+    <h4 mat-dialog-title>Do you want to save your changes as a new procedure?</h4>
+    <mat-dialog-actions align="end">
+      <button type="button" class="btn btn-primary" (click)="OpenModal(newprocedure, onedit)" id="dialog-btn" matDialogClose="proceed">Yes</button>
+      <button type="button" class="btn btn-primary" (click)="onEdit('old_name', onedit, newprocedure)" matDialogClose="cancel">No</button>
+    </mat-dialog-actions>
+  </ng-template>
+
+  <ng-template #newprocedure let-modal>
+    <h4 mat-dialog-title>Please provide a name for the procedure</h4>
+    <div mat-dialog-content>
+      <input matInput id="new-procedure-name" class="" type="text" autofocus placeholder="New Name" #procedureName [(ngModel)]="procedure_request.name">
+    </div>
+    <mat-dialog-actions align="end">
+      <button type="button" class="btn btn-success" (click)="onEdit('new_name', newprocedure)" id="dialog-btn" matDialogClose="proceed">Proceed</button>
+      <button type="button" class="btn btn-danger" matDialogClose="cancel">Cancel</button>
+    </mat-dialog-actions>
+  </ng-template>
+
+  <ng-template #onperform let-modal>
+    <h4 mat-dialog-title>Please provide a name for the procedure</h4>
+    <div mat-dialog-content>
+      <input matInput id="new-procedure-name" class="" type="text" autofocus placeholder="New Name" #procedurePerformName [(ngModel)]="procedure_request.name">
+    </div>
+    <mat-dialog-actions align="end">
+      <button type="button" class="btn btn-success" (click)="onPerform(onperform)" id="dialog-btn" matDialogClose="proceed">Proceed</button>
+      <button type="button" class="btn btn-danger" (click)="modal.close()" matDialogClose="cancel">Cancel</button>
+    </mat-dialog-actions>
+  </ng-template>
+
+  <ng-template #onreview>
+    <h4 mat-dialog-title>Please select a procedure for review</h4>
+    <div mat-dialog-content>
+      <mat-form-field id="review-form-field">
+        <mat-label>Select procedure</mat-label>
+        <mat-select [(ngModel)]="procedure_request_review"
+          required
+          name="procedure-type"  pattern="^((?!none).)*$">
+            <mat-option *ngFor="let procedure of procedure_list_review; let i=index" [value]=procedure>{{procedure.type}}-{{procedure.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-dialog-actions align="end">
+        <button type="button" class="btn btn-success" id="dialog-btn" matDialogClose="proceed">Proceed</button>
+        <button type="button" class="btn btn-danger"  matDialogClose="cancel">Cancel</button>
+    </mat-dialog-actions>
+  </ng-template>
+
 </div>

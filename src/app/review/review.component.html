@@ -1,0 +1,83 @@
+<div class="flex title-bar">
+  <a [routerLink]="['/start']">
+    <div class="logo-div">
+      <img src="./assets/images/logo.jpg" height="45px" width="45px" class="title-logo">
+      <p class="title-text"><span style="color:#3282bc;">SMART</span><span style="color:#19af74;">Surg</span></p>
+    </div>
+  </a>
+  <div class="procedure-name-div" *ngIf="!loading">
+    <p class="procedure-name">{{procedure.name}} | {{procedure.type}}</p>
+  </div>
+  <button mat-raised-button color="primary" routerLink="/start" id="mainpage-btn">Main Menu</button>
+</div>
+<div class="loading-div" *ngIf="loading">
+  <i class="fas fa-spinner fa-pulse fa-7x"></i>
+  <p><b>Loading...</b></p>
+</div>
+<div class="main" *ngIf="!loading">
+  <div *ngIf="!procedure_completed">
+    <div id="phase-bar">
+      <h2>Phase {{phase_index+1}} of {{procedure.phases.length}}: {{current_phase.name}}</h2>
+      <div id="phase-time"><span>Time started: {{ procedure.phases[0].steps[0].time_start | date:'H:mm'}}</span></div>
+    </div>
+    <mat-accordion multi="true">
+      <mat-expansion-panel *ngFor="let step of current_phase.steps; let step_ind = index" [expanded]="step_current==step_ind" [class.blue-bg]="step.skipped" [class.green-bg]="!step.skipped">
+        <mat-expansion-panel-header class="step-bar">
+          <b class="step-title">{{ step.name }}</b>
+          <span class="step-time"><span *ngIf="step.skipped">Skipped:&nbsp;</span><span *ngIf="!step.skipped">Completed:&nbsp;</span>{{ step.time_end | date:'H:mm' }}</span>
+        </mat-expansion-panel-header>
+
+        <div fxLayout="row"  fxLayoutGap="12px" class="substeps-div">
+          <mat-card *ngFor="let substep of step.substeps">
+            <mat-card-header>
+              <mat-card-title><b>{{substep.name}}</b></mat-card-title>
+            </mat-card-header>
+            <img mat-card-image src={{substep.image}}>
+            <mat-card-content>
+              <p><b>Action:</b> {{substep.action | addspaces}} <span *ngIf="!(substep.actionDescriptions === undefined || substep.actionDescriptions.length == 0)">({{substep.actionDescriptions | addspacesarray}})</span></p>
+              <table *ngIf="substep.instruments[0]&&hasAssignment(substep.instruments)" class="table table-sm table-bordered instrument-table">
+                <thead>
+                  <tr>
+                    <th>Instrument</th>
+                    <th>Assigned</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let instrument of substep.instruments" >
+                    <tr *ngIf="instrument.assigned!='none'">
+                      <td>{{instrument.id | addspaces}}</td>
+                      <td>{{instrument.assigned}}</td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+              <p><b>Anatomies:</b> {{substep.anatomies | addspacesarray}}</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="comments-div">
+          System messages:<br>
+          <div name="system_msg" class="textbox">{{step.log}}</div>
+          <hr>
+          Surgeon's comments:<br>
+          <div name="surgeon_comm" class="textbox" #step_comment>{{step.comment}}</div>
+
+        </div>
+
+          <!--<mat-list>
+            <mat-list-item *ngFor="let substep of step.substeps"> <mat-icon matListIcon>chevron_right</mat-icon>{{substep.name}} </mat-list-item>
+          </mat-list>-->
+      </mat-expansion-panel>
+    </mat-accordion>
+    <div class="phase-control">
+      <button type="button" class="btn btn-primary" (click)="changePhase('down')" [disabled]="phase_index==0" id="phase-btn">Previous Phase</button>
+      <span class="button-spacer"></span>
+      <button type="button" class="btn btn-primary" (click)="changePhase('up')" [disabled]="phase_index+1===procedure.phases.length" id="phase-btn">Next Phase</button>
+    </div>
+  </div>
+  <div class="completed" *ngIf="procedure_completed">
+    <h2 style="color: greenyellow">Procedure Completed!</h2>
+    <button mat-raised-button color="primary" routerLink="/start" id="homepage-btn">Homepage</button>
+  </div>
+</div>
+

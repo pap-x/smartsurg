@@ -12,7 +12,8 @@
 }
 
 #index-main {
-    width: 500px;
+    width: 100%;
+    max-width: 700px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 50px;
@@ -20,9 +21,7 @@
 }
 
 #form {
-    border: 1px solid #AAA;
-    width: 500px;
-    border-radius: 20px;
+    width: 520px;
     text-align: center;
     margin: 30px auto;
     font-size: 13pt;
@@ -33,15 +32,15 @@
 }
 
 #sel-type {
-    width: 220px;
+    width: 250px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 20px;
-    margin-bottom: 20px;
+    /*margin-bottom: 20px;*/
 }
 
 #sel-name {
-    width: 220px;
+    width: 250px;
     margin-left: auto;
     margin-right: auto;
     display: block;
@@ -57,26 +56,62 @@
     line-height:35px;
 }
 
-#load-procedure {
-    margin-bottom: 20px;
-    font-size: 13pt;
-    margin-right: 10px;
-}
-
 #procedure-name {
-    width: 220px;
-    margin-top: 20px;
+    width: 250px;
+    /*margin-top: 20px;*/
     margin-right: auto;
     margin-left: auto;
     font-size: 13pt;
 }
 
-#edit-procedure {
-    margin-bottom: 20px;
-    font-size: 13pt;
+#title-text {
+    font-size: 20pt;
+    margin: 15px;
+    font-weight: bold;
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-#title-text {
-    font-size: 11.5pt;
-    margin-top: 10px;
+.logo-text {
+  font-size: 18pt;
+}
+
+#modal-onedit-title {
+   font-size: 12pt;
+}
+
+#dialog-btn {
+  margin-right: 10px;
+}
+
+#review-form-field {
+  width: 400px;
+}
+
+.control-btn {
+  width: 45%;
+  min-width: 200px;
+  height: 4em;
+  font-size: 16pt;
+  margin-right: 2.5%;
+  margin-bottom: 2.5%;
+}
+
+#back-procedure {
+  margin-right: 5px;
+}
+
+.control-panel {
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.fa {
+  margin-right: 5px;
+  display: block;
 }
